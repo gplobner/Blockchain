@@ -4,6 +4,8 @@
 Created on Sat Sep 29 12:45:15 2018
 
 @author: Guillaume
+
+Udemy Course - Blockchain A-Z
 """
 #Module 1 - Create a Blockchain
 #To be installed Flask : pip install Flask==0.12.2
@@ -88,17 +90,46 @@ class Blockchain:
             
         return True
             
-                
-            
-            
-            
-        
+# Part 2 - Mining our Blockchain
         
     
-            
-            
-            
-# Part 2 - Mining our Blockchain
+# Creating a Web App
+app = Flask(__name__) 
+      
+# Creating a Blockchain
+blockchain = Blockchain()
+
+# Mining a new block
+@app.route('/mine_block', methods=['GET'])
+    
+def mine_block():
+    
+    previous_block = blockchain.get_previous_block()
+    previous_proof = previous_block['proof']
+    proof = blockchain.proof_of_work(previous_proof)
+    previous_hash = blockchain.hash(previous_block)
+    block = blockchain.create_block(proof, previous_hash)
+    
+    response = {'message' : 'Congrats minors, you have just mined a block!',
+                'index' : block['index'],
+                'timestamp' : block['timestamp'],
+                'proof' : block['proof'],
+                'previous_hash' : block['previous_hash']}
+    
+    return jsonify(response), 200 
+
+
+# Getting the full blockchain
+@app.route('/get_chain', methods=['GET'])
+
+def get_chain():
+    
+    response = {'chain' : blockchain.chain(),
+                'length' : len(blockchain.chain)}
+    
+    return jsonify(response), 200 
+    
+
 
 
 
