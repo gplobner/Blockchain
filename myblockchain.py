@@ -124,10 +124,14 @@ def mine_block():
 
 def get_chain():
     
-    response = {'chain' : blockchain.chain(),
+    response = {'chain' : blockchain.chain,
                 'length' : len(blockchain.chain)}
     
     return jsonify(response), 200 
+
+# Running the app
+    
+app.run(host = '0.0.0.0', port = 5000)
     
 
 
